@@ -1,6 +1,7 @@
 module.exports = function(app) {
     const authController = require('../controllers/AuthController'),
-        postController = require('../controllers/PostController'),
+        teamController = require('../controllers/TeamController'),
+        taskController = require('../controllers/TaskController'),
         verifyToken = require('../helpers/verifyToken')
         
     //Users
@@ -18,15 +19,34 @@ module.exports = function(app) {
         .get(verifyToken, authController.logout_a_user)
         
         
-    //Posts
+    //Tasks
+    
+    app.route('/api/tasks/user/:userId')
+        .get(taskController.get_tasks_by_user)
         
-    app.route('/api/posts')
-        .get(postController.get_all_posts)
-        .post(postController.create_a_post)
+    app.route('/api/tasks/team/:teamId')
+        .get(taskController.get_tasks_by_team)
         
-    app.route('/api/posts/:id')
-        .get(postController.get_a_post)
-        .put(postController.update_a_post)
-        .delete(postController.delete_a_post)
+    app.route('/api/tasks/')
+        .post(taskController.create_a_task)
+        
+    app.route('/api/tasks/:taskId')
+        .put(taskController.update_a_task)
+        .delete(taskController.delete_a_task)
+        
+    //Team
+    
+    app.route('/api/teams/:teamId/add')
+        .post(teamController.add_user_to_team)
+        
+    app.route('/api/teams/:teamId/remove')
+        .post(teamController.delete_user_from_team)
+        
+    app.route('/api/teams/:teamId')
+        .put(teamController.update_a_team)
+        .delete(teamController.delete_a_team)
+        
+    app.route('/api/teams')
+        .post(teamController.create_a_team)
     
 };
