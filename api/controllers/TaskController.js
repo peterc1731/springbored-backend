@@ -9,7 +9,8 @@ exports.get_tasks_by_team = function (req, res) {
 }
 
 exports.get_tasks_by_user = function (req, res) {
-    Task.find({ assignee_id: req.params.assigneeId }, function(err, tasks) {
+    const userid = req.userid
+    Task.find({ assignee_id: userid}, function(err, tasks) {
         if (err) res.send(err)
         else res.json(tasks)
     })

@@ -21,8 +21,8 @@ module.exports = function(app) {
         
     //Tasks
     
-    app.route('/api/tasks/user/:userId')
-        .get(taskController.get_tasks_by_user)
+    app.route('/api/tasks/user')
+        .get(verifyToken, taskController.get_tasks_by_user)
         
     app.route('/api/tasks/team/:teamId')
         .get(taskController.get_tasks_by_team)
