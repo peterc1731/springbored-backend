@@ -43,6 +43,7 @@ module.exports = function(app) {
         .post(teamController.delete_user_from_team)
         
     app.route('/api/teams/:teamId')
+        .get(teamController.get_team_by_team_id)
         .put(teamController.update_a_team)
         .delete(teamController.delete_a_team)
         

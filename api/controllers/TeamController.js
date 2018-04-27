@@ -21,8 +21,6 @@ exports.add_user_to_team = function (req, res) {
 }
 
 
-
-
 exports.get_teams_by_user = function (req, res) {
     const userid = req.userId
     console.log("user id: " + userid)
@@ -33,8 +31,14 @@ exports.get_teams_by_user = function (req, res) {
 }
 
 
-
-
+exports.get_team_by_team_id = function (req, res) {
+    const teamid = req.params.teamId
+    console.log("team id: " + teamid)
+    Team.findOne({ _id: teamid}, function(err, team) {
+        if (err) res.send(err)
+        else res.json(team)
+    })
+}
 
 
 exports.delete_user_from_team = function (req, res) {
