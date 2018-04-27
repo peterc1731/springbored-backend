@@ -11,14 +11,31 @@ exports.create_a_team = function (req, res) {
 }
 
 exports.add_user_to_team = function (req, res) {
-    Team.find( { _id: req.params.teamId }, function(err, team) {
-        team.members.push(req.body.userId)
-        Team.findOneAndUpdate({ _id: req.params.teamId }, team, { new: true }, function (err, team) {
+    Team.find( { _id: req.params.teamId }, function(err, teams) {
+        teams[0].members.push(req.body.userId)
+        Team.findOneAndUpdate({ _id: req.params.teamId }, teams[0], { new: true }, function (err, new_teams) {
             if (err) res.send(err)
-            else res.json(team)
+            else res.json(new_teams[0])
         })
     })
 }
+
+
+
+
+exports.get_teams_by_user = function (req, res) {
+    const userid = req.userId
+    console.log("user id: " + userid)
+    Team.find({ members: userid}, function(err, teams) {
+        if (err) res.send(err)
+        else res.json(teams)
+    })
+}
+
+
+
+
+
 
 exports.delete_user_from_team = function (req, res) {
     Team.find( { _id: req.params.teamId }, function(err, team) {
