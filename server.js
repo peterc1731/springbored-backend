@@ -4,8 +4,9 @@ const express = require('express'),
     routes = require('./api/routes/routes'),
     bodyParser = require('body-parser'),
     app = express(),
-    port = process.env.SOCIAL_NETWORK_PORT || 3001,
-    mongoUrl = process.env.SOCIAL_NETWORK_DB_URL || 'mongodb://localhost/social-network'
+    port = process.env.APP_PORT || 3001,
+    mongoUrl = process.env.APP_DB_URL || 'mongodb://localhost/social-network'
+    
 
 mongoose.Promise = global.Promise
 mongoose.connect(mongoUrl)
@@ -20,7 +21,7 @@ mongoose.connect(mongoUrl)
         
         app.listen(port)
         
-        console.log('social-network-api server started on: ' + port)
+        console.log('springbored server started on: ' + port)
     })
     .catch((err) => {
         console.log("Error: Unable to start server.")

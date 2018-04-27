@@ -1,21 +1,10 @@
 module.exports = function(app) {
-    const userController = require('../controllers/UserController'),
-        authController = require('../controllers/AuthController'),
+    const authController = require('../controllers/AuthController'),
         postController = require('../controllers/PostController'),
-        imageController = require('../controllers/ImageController'),
         verifyToken = require('../helpers/verifyToken')
         
     //Users
     
-    app.route('/api/users')
-        .get(userController.get_all_users)
-        .post(userController.create_a_user)
-        
-    app.route('/api/users/:id')
-        .get(userController.get_a_user)
-        .put(userController.update_a_user)
-        .delete(userController.delete_a_user)
-        
     app.route('/api/register')
         .post(authController.register_a_new_user)
         
@@ -39,16 +28,5 @@ module.exports = function(app) {
         .get(postController.get_a_post)
         .put(postController.update_a_post)
         .delete(postController.delete_a_post)
-        
-        
-    //Images
-    
-    app.route('/api/images')
-        .post(imageController.create_an_image)
-        
-    app.route('/api/images/:id')
-        .get(imageController.get_an_image)
-        .put(imageController.update_an_image)
-        .delete(imageController.delete_an_image)
     
 };

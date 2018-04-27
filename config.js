@@ -1,3 +1,3 @@
 module.exports = {
-    'secret': process.env.SOCIAL_NETWORK_SECRET || 'supersecret'
+    'secret': process.env.APP_SECRET || 'supersecret'
 };

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "start-dev": ". ./local-env.sh; nodemon server.js"
+    "start-dev": "source ./local-env.sh; nodemon server.js"
   },
   "author": "Peter Carpenter",
   "license": "ISC",
