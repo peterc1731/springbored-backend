@@ -3,6 +3,7 @@ const mongoose = require('mongoose'),
 
 
 exports.create_a_team = function (req, res) {
+    req.body.members = [req.userId]
     const new_team = new Team(req.body)
     new_team.save(function (err, team) {
         if (err) res.send(err)

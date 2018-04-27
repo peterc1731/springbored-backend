@@ -48,7 +48,7 @@ module.exports = function(app) {
         .delete(teamController.delete_a_team)
         
     app.route('/api/teams')
-        .post(teamController.create_a_team)
+        .post(verifyToken, teamController.create_a_team)
     
     app.route('/api/teams/user/retrieve')
         .get(verifyToken, teamController.get_teams_by_user)
