@@ -26,14 +26,14 @@ exports.create_a_task = function (req, res) {
 }
 
 exports.update_a_task = function (req, res) {
-     Task.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, task) {
+     Task.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true }, function (err, task) {
          if (err) res.send(err)
          else res.json(task)
      })
 }
 
 exports.delete_a_task = function (req, res) {
-    Post.findByIdAndRemove({ _id: req.params.id }, function (err, task) {
+    Post.findByIdAndRemove({ _id: req.params.taskId }, function (err, task) {
         if (err) res.send(err)
         else res.json(task)
     })
