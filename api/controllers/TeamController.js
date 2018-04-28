@@ -1,18 +1,33 @@
 const mongoose = require('mongoose'),
-    Team = require('../models/Team')
+    Team = require('../models/Team'),
+    User = require('../models/User')
 
 
 exports.create_a_team = function (req, res) {
-    req.body.members ? req.body.members.push(req.userId) : req.body.members = [req.userId]
-    const new_team = new Team(req.body)
-    new_team.save(function (err, team) {
-        if (err) res.status(500).json({ success: false, message: "Could not create team", error: err })
-        else res.json(team)
-    });
+    const members = req.body.members.split(",")
+    let memberIds = []
+    const promises = members.map((username) => {
+        return User.findOne({ username: username }, function (err, user) {
+            if (!user) res.status(404).json({ success: false, message: "Could not find user", error: err })
+            if (err) res.status(500).json({ success: false, message: "Could not get user id from username", error: err })
+            return user
+        }).then((user) => {
+            memberIds.push(user._id)
+        })
+    })
+    Promise.all(promises).then(() => {
+        memberIds.push(req.userId)
+        req.body.members = memberIds
+        const new_team = new Team(req.body)
+        new_team.save(function (err, team) {
+            if (err) res.status(500).json({ success: false, message: "Could not create team", error: err })
+            else res.json(team)
+        });
+    })
 }
 
 exports.add_user_to_team = function (req, res) {
-    Team.findOne( { _id: req.params.teamId }, function(err, team) {
+    Team.findOne({ _id: req.params.teamId }, function(err, team) {
         team.members.push(req.body.userId)
         Team.findOneAndUpdate({ _id: req.params.teamId }, team, { new: true }, function (err, new_team) {
             if (err) res.status(500).json({ success: false, message: "Could not update team", error: err })
@@ -24,7 +39,7 @@ exports.add_user_to_team = function (req, res) {
 
 exports.get_teams_by_user = function (req, res) {
     const userid = req.userId
-    Team.find({ members: userid}, function(err, teams) {
+    Team.find({ members: userid }, function(err, teams) {
         if (err) res.status(500).json({ success: false, message: "Could not find team", error: err })
         else res.json(teams)
     })
@@ -33,7 +48,7 @@ exports.get_teams_by_user = function (req, res) {
 
 exports.get_team_by_team_id = function (req, res) {
     const teamid = req.params.teamId
-    Team.findOne({ _id: teamid}, function(err, team) {
+    Team.findOne({ _id: teamid }, function(err, team) {
         if (err) res.status(500).json({ success: false, message: "Could get team", error: err })
         else res.json(team)
     })

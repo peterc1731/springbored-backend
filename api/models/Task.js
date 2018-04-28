@@ -18,6 +18,9 @@ const TaskSchema = new mongoose.Schema({
     assignee_id: {
         type: String
     },
+    assignee_username: {
+        type: String
+    },
     effort: {
         type: Number,
         default: 0
