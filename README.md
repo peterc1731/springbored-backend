@@ -1,4 +1,4 @@
-# Social Network API
+# SpringBored API
 Node backend for a project management app.
 
 ## Set Up
